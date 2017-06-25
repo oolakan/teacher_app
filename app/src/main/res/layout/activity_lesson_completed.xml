@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.practicer.teacherapp.LessonCompletedActivity"
+    android:background="@color/grey">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/body_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:typeface="normal"
+        android:minHeight="40dp"
+        android:textAllCaps="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:textSize="17sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:text="Title"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/expected_time"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="16sp"
+            android:text="Expected Time"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/actual_time"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Actual Time"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/reportList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/light_gray"
+        android:dividerHeight="1dp"
+        android:layout_margin="5dp"
+        android:background="@color/white"
+        android:layout_marginBottom="60dp">
+    </ListView>
+</LinearLayout>
+
+    <Button
+        android:id="@+id/start_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/start_lesson"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

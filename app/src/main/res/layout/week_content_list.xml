@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:layout_below="@+id/toolbar"
+	android:id="@+id/card_view"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_gravity="center"
+	android:elevation="3dp"
+	card_view:cardCornerRadius="3dp"
+	android:background="@color/white"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:background="@color/white"
+		android:layout_margin="20dp">
+
+	<TextView
+			android:id="@+id/week_content_content"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:textSize="16sp"
+			android:gravity="start|center"
+			android:textColor="@color/title_gray"/>
+
+	<ImageView
+			android:id="@+id/week_content_image"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="start|center"/>
+	<FrameLayout
+		android:id="@+id/musicFrame"
+		android:visibility="gone"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView
+			android:id="@+id/music_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/audio_title"
+			android:typeface="normal"
+			android:textSize="16sp"
+			android:gravity="start|center"
+			android:layout_gravity="start|center"
+			android:textColor="@color/title_gray"/>
+
+
+		<ImageButton
+			android:id="@+id/play"
+			android:textColor="@color/white"
+			android:layout_width="wrap_content"
+			android:layout_gravity="end|center"
+			android:layout_height="wrap_content"
+			android:src="@drawable/img_btn_play"
+			/>
+	</FrameLayout>
+	<FrameLayout
+		android:id="@+id/videoFrame"
+		android:visibility="gone"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView
+			android:id="@+id/video_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/audio_title"
+			android:typeface="normal"
+			android:textSize="16sp"
+			android:gravity="start|center"
+			android:layout_gravity="start|center"
+			android:textColor="@color/title_gray"/>
+
+
+		<ImageButton
+			android:id="@+id/playVideo"
+			android:textColor="@color/white"
+			android:layout_width="wrap_content"
+			android:layout_gravity="end|center"
+			android:layout_height="wrap_content"
+			android:src="@drawable/img_btn_play"
+			/>
+	</FrameLayout>
+</LinearLayout>
+	</android.support.v7.widget.CardView>

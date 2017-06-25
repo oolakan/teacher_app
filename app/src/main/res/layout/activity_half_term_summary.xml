@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    tools:context="com.practicer.teacherapp.HalfTermSummaryActivity">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar"/>
+    <LinearLayout
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/half_term_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textSize="17sp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/grey" />
+
+        <TextView
+            android:id="@+id/half_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/half_term_title"
+            android:layout_gravity="center"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
+
+        <ListView
+            android:id="@+id/half_term_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/white"
+            android:dividerHeight="2dp"
+            android:paddingLeft="35dp"
+            android:layout_margin="5dp"
+            android:background="@color/white">
+        </ListView>
+
+    </LinearLayout>
+</RelativeLayout>

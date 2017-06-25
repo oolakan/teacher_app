@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:background="@drawable/background_white"
+		android:layout_margin="5dp">
+	<TextView
+		android:id="@+id/content_title"
+		android:layout_width="match_parent"
+		android:layout_height="40dp"
+		android:background="@color/white"
+		android:textSize="16sp"
+		android:layout_weight="1"
+		android:text="15mins"
+		android:gravity="center"
+		android:textColor="@color/colorPrimary"/>
+
+	<TextView
+			android:id="@+id/expected_time"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:background="@color/white"
+			android:textSize="16sp"
+		android:text="15mins"
+		android:layout_weight="1"
+			android:gravity="center"
+			android:textColor="@color/colorPrimary"/>
+
+	<TextView
+		android:id="@+id/actual_time"
+		android:layout_width="match_parent"
+		android:layout_height="40dp"
+		android:background="@color/white"
+		android:layout_weight="1"
+		android:text="15mins"
+		android:textSize="16sp"
+		android:gravity="center"
+		android:textColor="@color/colorPrimary"/>
+
+
+</LinearLayout>
