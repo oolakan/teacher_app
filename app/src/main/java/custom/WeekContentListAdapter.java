@@ -23,6 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by HighStrit on 18/03/2017.
  */
+
 public class WeekContentListAdapter extends ArrayAdapter<WDT>{
     private final Activity context;
     private ArrayList<WDT> wdt;
@@ -66,10 +67,12 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
         }
         else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.SONG)){
             viewHolder.frame.setVisibility(View.VISIBLE);
+            viewHolder.videoFrame.setVisibility(View.GONE);
             viewHolder.audioTitle.setText(wdt.get(position).getBodyContent());
         }
         else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.VIDEO)){
             viewHolder.videoFrame.setVisibility(View.VISIBLE);
+            viewHolder.audioTitle.setVisibility(View.GONE);
             viewHolder.videoTitle.setText(wdt.get(position).getBodyContent());
         }
         viewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {

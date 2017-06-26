@@ -318,9 +318,7 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
             timerCounter.setVisibility(View.GONE);
             timerValue.setVisibility(View.GONE);
         }
-
         body_title.setText(currentM.getBodyTitle());
-
         if (currentM.getBodyType().equalsIgnoreCase(Constants.TEXT)) {
             musicFrame.setVisibility(View.GONE);
             bodyImage.setVisibility(View.GONE);
@@ -328,61 +326,15 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
             body_content.setText(currentM.getBodyContent());
             body_content.setVisibility(View.VISIBLE);
         } else if (currentM.getBodyType().equalsIgnoreCase(Constants.MULTIMEDIA)) {
-            if (currentM.getBodyContent().startsWith("i:")) {
                 body_content.setVisibility(View.GONE);
                 bodyImage.setVisibility(View.GONE);
                 musicFrame.setVisibility(View.GONE);
                 multimediaView.setVisibility(View.VISIBLE);
-                String[] doc = currentM.getBodyContent().split(":");
-                String image_name = doc[1];
-                ArrayList<WDT> multimediaList = new ArrayList<WDT>();
-                WDT wdt = new WDT();
-                wdt.setBodyType(Constants.IMAGE);
-                wdt.setBodyContent(image_name);
-                multimediaList.add(wdt);
-                WeekContentListAdapter adapter = new WeekContentListAdapter(WeekContentActivity.this, multimediaList);
-                adapter.setCustomButtonListner(WeekContentActivity.this);
-                multimediaView.setAdapter(adapter);
-
-            } else if (currentM.getBodyContent().startsWith("s:")) {
-                body_content.setVisibility(View.GONE);
-                bodyImage.setVisibility(View.GONE);
-                musicFrame.setVisibility(View.GONE);
-                multimediaView.setVisibility(View.VISIBLE);
-                String[] doc = currentM.getBodyContent().split(":");
-                String music_name = doc[1];
-                ArrayList<WDT> multimediaList = new ArrayList<WDT>();
-                WDT wdt = new WDT();
-                wdt.setBodyType(Constants.SONG);
-                wdt.setBodyContent(music_name);
-                multimediaList.add(wdt);
-                WeekContentListAdapter adapter = new WeekContentListAdapter(WeekContentActivity.this, multimediaList);
-                adapter.setCustomButtonListner(WeekContentActivity.this);
-                multimediaView.setAdapter(adapter);
-            }
-            else if (currentM.getBodyContent().startsWith("v:")) {
-                body_content.setVisibility(View.GONE);
-                bodyImage.setVisibility(View.GONE);
-                musicFrame.setVisibility(View.GONE);
-                multimediaView.setVisibility(View.VISIBLE);
-                String[] doc = currentM.getBodyContent().split(":");
-                String video_name = doc[1];
-                ArrayList<WDT> multimediaList = new ArrayList<WDT>();
-                WDT wdt = new WDT();
-                wdt.setBodyType(Constants.VIDEO);
-                wdt.setBodyContent(video_name);
-                multimediaList.add(wdt);
-                WeekContentListAdapter adapter = new WeekContentListAdapter(WeekContentActivity.this, multimediaList);
-                adapter.setCustomButtonListner(WeekContentActivity.this);
-                multimediaView.setAdapter(adapter);
-
-            } else {
-                body_content.setVisibility(View.GONE);
-                bodyImage.setVisibility(View.GONE);
-                musicFrame.setVisibility(View.GONE);
-                multimediaView.setVisibility(View.VISIBLE);
+                WeekContentListAdapter adapter = null;
                 String[] contents = currentM.getBodyContent().split(":-");
                 ArrayList<WDT> multimediaList = new ArrayList<WDT>();
+                multimediaList.clear();
+               multimediaView.setAdapter(null);
                 for (int i = 0; i < contents.length; i++) {
                     WDT wdt = new WDT();
                     if (contents[i].startsWith("s:")){
@@ -412,11 +364,10 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
                         wdt.setBodyContent(text);
                         multimediaList.add(wdt);
                     }
-                }
-                WeekContentListAdapter adapter = new WeekContentListAdapter(WeekContentActivity.this, multimediaList);
-                adapter.setCustomButtonListner(WeekContentActivity.this);
-                multimediaView.setAdapter(adapter);
             }
+            adapter = new WeekContentListAdapter(WeekContentActivity.this, multimediaList);
+            adapter.setCustomButtonListner(WeekContentActivity.this);
+            multimediaView.setAdapter(adapter);
         }
     }
     @Override
@@ -601,7 +552,9 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
                                     // Resume song
                                     if (mp != null) {
                                         AssetFileDescriptor afd = getApplicationContext().getAssets().openFd(Constants.CONTENT_AUDIO_FOLDER+value);
+                                        mp.reset();
                                         mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                                        mp.prepare();
                                         mp.start();
                                         // Changing Button Image to pause image
                                         btnPlay.setImageResource(R.drawable.btn_pause);
@@ -799,7 +752,6 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
         // update timer progress again
         updateProgressBar();
     }
-
     /**
      * Background Runnable thread
      * */
