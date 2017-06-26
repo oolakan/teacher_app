@@ -334,7 +334,7 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
                 String[] contents = currentM.getBodyContent().split(":-");
                 ArrayList<WDT> multimediaList = new ArrayList<WDT>();
                 multimediaList.clear();
-               multimediaView.setAdapter(null);
+                multimediaView.setAdapter(null);
                 for (int i = 0; i < contents.length; i++) {
                     WDT wdt = new WDT();
                     if (contents[i].startsWith("s:")){

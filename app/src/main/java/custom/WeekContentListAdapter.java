@@ -56,23 +56,46 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
         else{
             viewHolder = (ViewHolder) view.getTag();
         }
+        viewHolder.body_content.setText(wdt.get(position).getBodyContent());
         if(wdt.get(position).getBodyType().equals(Constants.IMAGE)){
             viewHolder.image.setVisibility(View.VISIBLE);
             String name = wdt.get(position).getBodyContent();
             Bitmap bitmap = getBitmapFromAssets(Constants.CONTENT_IMAGE_FOLDER+name);
             viewHolder.image.setImageBitmap(bitmap);
-        }
-        else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.TEXT)){
+            viewHolder.videoFrame.setVisibility(View.GONE);
+            viewHolder.frame.setVisibility(View.GONE);
+            viewHolder.body_content.setVisibility(View.VISIBLE);
             viewHolder.body_content.setText(wdt.get(position).getBodyContent());
+            viewHolder.videoTitle.setVisibility(View.GONE);
+            viewHolder.audioTitle.setVisibility(View.GONE);
         }
-        else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.SONG)){
+        if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.TEXT)){
+            viewHolder.body_content.setVisibility(View.VISIBLE);
+            viewHolder.body_content.setText(wdt.get(position).getBodyContent());
+            viewHolder.videoFrame.setVisibility(View.GONE);
+            viewHolder.frame.setVisibility(View.GONE);
+            viewHolder.image.setVisibility(View.GONE);
+            viewHolder.videoTitle.setVisibility(View.GONE);
+            viewHolder.audioTitle.setVisibility(View.GONE);
+        }
+        if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.SONG)){
+            viewHolder.body_content.setVisibility(View.VISIBLE);
+            viewHolder.body_content.setText(wdt.get(position).getBodyContent());
             viewHolder.frame.setVisibility(View.VISIBLE);
             viewHolder.videoFrame.setVisibility(View.GONE);
+            viewHolder.image.setVisibility(View.GONE);
+            viewHolder.videoTitle.setVisibility(View.GONE);
+            viewHolder.audioTitle.setVisibility(View.VISIBLE);
             viewHolder.audioTitle.setText(wdt.get(position).getBodyContent());
         }
-        else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.VIDEO)){
+        if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.VIDEO)){
             viewHolder.videoFrame.setVisibility(View.VISIBLE);
+            viewHolder.frame.setVisibility(View.GONE);
+            viewHolder.image.setVisibility(View.GONE);
             viewHolder.audioTitle.setVisibility(View.GONE);
+            viewHolder.body_content.setVisibility(View.VISIBLE);
+            viewHolder.body_content.setText(wdt.get(position).getBodyContent());
+            viewHolder.videoTitle.setVisibility(View.VISIBLE);
             viewHolder.videoTitle.setText(wdt.get(position).getBodyContent());
         }
         viewHolder.btnPlay.setOnClickListener(new View.OnClickListener() {
