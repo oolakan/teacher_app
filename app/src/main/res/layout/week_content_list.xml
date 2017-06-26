@@ -21,13 +21,15 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:background="@color/white"
-			android:textSize="16sp"
+			android:textSize="25sp"
+		android:paddingLeft="40dp"
 			android:gravity="start|center"
 			android:textColor="@color/title_gray"/>
 
 	<ImageView
 			android:id="@+id/week_content_image"
 			android:layout_width="match_parent"
+			android:paddingLeft="40dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="start|center"/>
 	<FrameLayout
@@ -42,7 +44,8 @@
 			android:layout_height="wrap_content"
 			android:text="@string/audio_title"
 			android:typeface="normal"
-			android:textSize="16sp"
+			android:paddingLeft="40dp"
+			android:textSize="25sp"
 			android:gravity="start|center"
 			android:layout_gravity="start|center"
 			android:textColor="@color/title_gray"/>
@@ -54,6 +57,7 @@
 			android:layout_width="wrap_content"
 			android:layout_gravity="end|center"
 			android:layout_height="wrap_content"
+			android:paddingLeft="40dp"
 			android:src="@drawable/img_btn_play"
 			/>
 	</FrameLayout>
@@ -69,7 +73,8 @@
 			android:layout_height="wrap_content"
 			android:text="@string/audio_title"
 			android:typeface="normal"
-			android:textSize="16sp"
+			android:paddingLeft="40dp"
+			android:textSize="25sp"
 			android:gravity="start|center"
 			android:layout_gravity="start|center"
 			android:textColor="@color/title_gray"/>
@@ -80,6 +85,7 @@
 			android:textColor="@color/white"
 			android:layout_width="wrap_content"
 			android:layout_gravity="end|center"
+			android:paddingLeft="40dp"
 			android:layout_height="wrap_content"
 			android:src="@drawable/img_btn_play"
 			/>

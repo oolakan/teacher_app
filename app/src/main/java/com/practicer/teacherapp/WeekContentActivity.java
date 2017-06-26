@@ -226,6 +226,8 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
                             //run new timer when user is on the next page
                             if(CURRENT_PAGE > PREVIOUS_PAGE) {
                                 if (timer != null && timer.isStarted()) {
+                                    //save the previous data
+                                    currentM = studyMaterialList.get(mid-1);
                                     utils = new custom.Utilities();
                                     String used_time = utils.milliSecondsToTimer(timer.getCurrentPlayTime()) + "";
                                     saveReport(currentM.getBodyTitle(), currentM.getExpectedTime().replaceAll("\\D+", ""), String.format("%s mins", used_time));
@@ -252,6 +254,8 @@ public class WeekContentActivity extends AppCompatActivity implements MediaPlaye
                         if (!currentM.getExpectedTime().isEmpty()) {
                             //save previous time and content
                             if (timer != null && timer.isStarted()) {
+                                //save the previous data
+                                currentM = studyMaterialList.get(mid-1);
                                 utils = new custom.Utilities();
                                 String used_time = utils.milliSecondsToTimer(timer.getCurrentPlayTime()) + "";
                                 saveReport(currentM.getBodyTitle(), currentM.getExpectedTime().replaceAll("\\D+", ""), String.format("%s mins", used_time));

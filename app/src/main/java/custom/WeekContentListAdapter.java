@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +61,8 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
         if(wdt.get(position).getBodyType().equals(Constants.IMAGE)){
             viewHolder.image.setVisibility(View.VISIBLE);
             String name = wdt.get(position).getBodyContent();
-            Bitmap bitmap = getBitmapFromAssets(Constants.CONTENT_IMAGE_FOLDER+name);
-            viewHolder.image.setImageBitmap(bitmap);
+            Drawable drawable = getBitmapFromAssets(Constants.CONTENT_IMAGE_FOLDER+name);
+            viewHolder.image.setBackground(drawable);
             viewHolder.videoFrame.setVisibility(View.GONE);
             viewHolder.frame.setVisibility(View.GONE);
             viewHolder.body_content.setVisibility(View.GONE);
@@ -128,7 +129,7 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
         FrameLayout videoFrame;
     }
 
-    public Bitmap getBitmapFromAssets(String fileName){
+    public Drawable getBitmapFromAssets(String fileName){
         AssetManager assetManager = context.getAssets();
         InputStream inputStream = null;
         try {
@@ -136,7 +137,8 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Drawable d= Drawable.createFromStream(inputStream, null);
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-        return bitmap;
+        return d;
     }
 }
