@@ -11,21 +11,15 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
-import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -36,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -49,12 +42,10 @@ import custom.DBController;
 import custom.WDT;
 import custom.WeekContentListAdapter;
 import multimedia.SongsManager;
-import multimedia.Utilities;
-
 
 
 public class WeekContentActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener, WeekContentListAdapter.customButtonListener ,
-SeekBar.OnSeekBarChangeListener{
+        SeekBar.OnSeekBarChangeListener {
 
     //WEEK SUMMARY VIEWS
     private ValueAnimator timer;
@@ -275,56 +266,30 @@ SeekBar.OnSeekBarChangeListener{
             }
         });
 
-        //set on click listener for multimedia listview
-        multimediaView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ImageButton player = (ImageButton) view.findViewById(R.id.btnPlay);
-                player.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getApplicationContext(), "Button clicked", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                try {
-                    if (mid > 0) {
+            public void onClick(View view) {
+                try{
+                    if(mid > 0) {
                         mid--;
-                        if (mid != 0) previous.setVisibility(View.VISIBLE);
-                        else previous.setVisibility(View.GONE);
+                        if (mid != 0)
+                            previous.setVisibility(View.VISIBLE);
+                        else
+                            previous.setVisibility(View.GONE);
                         currentM = studyMaterialList.get(mid);
                         PREVIOUS_PAGE++;
-                        if(PREVIOUS_PAGE > 2) Toast.makeText(getApplicationContext(), "You cannot go back beyond two times", Toast.LENGTH_SHORT).show();
-                        setPreviousStudyMaterialView();
+                        if (PREVIOUS_PAGE > 2) {
+                            mid++;
+                            Toast.makeText(getApplicationContext(), getString(R.string.back_not_allowed), Toast.LENGTH_SHORT).show();
+                        }
+                        else setPreviousStudyMaterialView();
                     } else {
-                        next.setText(getString(R.string.next));
-                        previous.setVisibility(View.GONE);
+                            next.setText(getString(R.string.next));
+                            previous.setVisibility(View.GONE);
                     }
-                } catch (NullPointerException ex) {
                 }
-            }
-        });
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mp.isPlaying()){
-                    if(mp!=null){
-                        mp.pause();
-                        // Changing button image to play button
-                        btnPlay.setImageResource(R.drawable.btn_play);
-                    }
-                }else{
-                    // Resume song
-                    if(mp!=null){
-                        mp.start();
-                        // Changing button image to pause button
-                        btnPlay.setImageResource(R.drawable.btn_pause);
-                    }
+                catch (NullPointerException ex){
+
                 }
             }
         });
@@ -341,6 +306,7 @@ SeekBar.OnSeekBarChangeListener{
     private void setPreviousStudyMaterialView() {
         getContent();
     }
+
     public void getContent(){
         if (!currentM.getExpectedTime().isEmpty()) {
             timerCounter.setText(currentM.getExpectedTime().replaceAll("\\D+", "") + getString(R.string.minutes));
@@ -361,40 +327,6 @@ SeekBar.OnSeekBarChangeListener{
             multimediaView.setVisibility(View.GONE);
             body_content.setText(currentM.getBodyContent());
             body_content.setVisibility(View.VISIBLE);
-
-        }
-
-        else if (currentM.getBodyType().equalsIgnoreCase(Constants.IMAGE)) {
-
-            musicFrame.setVisibility(View.GONE);
-            bodyImage.setVisibility(View.VISIBLE);
-            body_content.setVisibility(View.GONE);
-            multimediaView.setVisibility(View.GONE);
-            Toast.makeText(getApplicationContext(), Constants.IMAGE, Toast.LENGTH_SHORT).show();
-            String[] doc = currentM.getBodyContent().split(":");
-            String image_name = doc[1];
-            Bitmap bitmap = getBitmapFromAssets("images/t1p4w6d1maths.png");
-            bodyImage.setImageBitmap(bitmap);
-//            int id = getApplicationContext().getResources().getIdentifier(image_name, "drawable", getApplicationContext().getPackageName());
-//            bodyImage.setImageResource(id);
-        }
-        else if (currentM.getBodyType().equalsIgnoreCase(Constants.SONG)){
-            musicFrame.setVisibility(View.VISIBLE);
-            bodyImage.setVisibility(View.VISIBLE);
-            body_content.setVisibility(View.GONE);
-            multimediaView.setVisibility(View.GONE);
-                try {
-                    AssetFileDescriptor afd = getResources().getAssets().openFd("audios/mpfirst.mp3");
-                    if (afd == null) return;
-                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    playSong(afd);
-                    afd.close();
-                    if (mp != null) {
-                        mp.pause();
-                        btnPlay.setImageResource(R.drawable.btn_play);
-                    }
-                } catch (IOException ex) {
-                }
         } else if (currentM.getBodyType().equalsIgnoreCase(Constants.MULTIMEDIA)) {
             if (currentM.getBodyContent().startsWith("i:")) {
                 body_content.setVisibility(View.GONE);
@@ -457,9 +389,7 @@ SeekBar.OnSeekBarChangeListener{
                         wdt.setBodyType(Constants.SONG);
                         String[] doc = contents[i].split(":");
                         String music_name = doc[1];
-                        if(music_name.endsWith("mp3")){
-                            wdt.setBodyContent(music_name);
-                        }
+                        wdt.setBodyContent(music_name);
                         multimediaList.add(wdt);
                     }
                     else if (contents[i].startsWith("i:")){
@@ -494,7 +424,6 @@ SeekBar.OnSeekBarChangeListener{
         startActivity(new Intent(WeekContentActivity.this, MainActivity.class));
         finish();
     }
-
     public String getWeekSummaryValue(int value) {
         String weekSummary = "";
         if (value <= 5) {
@@ -564,7 +493,6 @@ SeekBar.OnSeekBarChangeListener{
         db.insert(Constants.REPORT_TABLE, values);
 
     }
-
     /**
      * Function to play a song
      */
@@ -572,7 +500,6 @@ SeekBar.OnSeekBarChangeListener{
         // Play song
         try {
             mp.reset();
-          //  mp.setDataSource(audioPath);
             mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             mp.prepare();
             mp.start();
@@ -581,7 +508,6 @@ SeekBar.OnSeekBarChangeListener{
             // set Progress bar values
             songProgressBar.setProgress(0);
             songProgressBar.setMax(100);
-
             // Updating progress bar
             updateProgressBar();
         } catch (IllegalArgumentException e) {
@@ -599,8 +525,6 @@ SeekBar.OnSeekBarChangeListener{
     public void updateProgressBar() {
         mHandler.postDelayed(mUpdateTimeTask, 100);
     }
-
-
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
@@ -661,60 +585,41 @@ SeekBar.OnSeekBarChangeListener{
              * plays a song and changes button to pause image
              * pauses a song and changes button to play image
              * */
-            btnPlay.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    // check for already playing
-                    try {
-                        if (mp.isPlaying()) {
-                            if (mp != null) {
-                                mp.pause();
-                                // Changing button image to play button
-                                btnPlay.setImageResource(R.drawable.img_btn_play);
-                            }
-                        } else {
-                            // Resume song
-                            if (mp != null) {
-                                mp.reset();
-//                                File mediaStorageDir = new File(
-//                                        Environment
-//                                                .getExternalStorageDirectory().getAbsolutePath()+ Constants.CONTENT_AUDIO_FOLDER);
-                                // Create the storage directory if it does not exist
-//                                if (mediaStorageDir.exists()) {
-//                                    String audioPath = mediaStorageDir.getAbsolutePath() + File.separator + currentM.getBodyContent() + "mp3";
-
-                                    // int id = getApplicationContext().getResources().getIdentifier(value, "raw", getApplicationContext().getPackageName());
-                                    AssetFileDescriptor afd = getResources().getAssets().openFd("audios/mpfirst.mp3");
-                                      if (afd == null) return;
-                                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                                   afd.close();
-                                    //  afd.close();
-                                    mp.prepare();
-                                mp.setVolume(1.0f, 1.0f);
-                                mp.setLooping(true);
-                                    mp.start();
-                                    // Changing button image to pause button
-                                    btnPlay.setImageResource(R.drawable.btn_pause);
-                                    songProgressBar.setProgress(0);
-                                    songProgressBar.setMax(100);
-                                    updateProgressBar();
-//                                }
-//                                else{
-//                                    Toast.makeText(getApplicationContext(),"Audi fe not available", Toast.LENGTH_SHORT).show();
-//                                }
+            btnPlay.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View arg0) {
+                            // check for already playing
+                            try {
+                                if (mp.isPlaying()) {
+                                    if (mp != null) {
+                                        mp.pause();
+                                        // Changing button image to play button
+                                        btnPlay.setImageResource(R.drawable.img_btn_play);
+                                    }
+                                } else {
+                                    // Resume song
+                                    if (mp != null) {
+                                        AssetFileDescriptor afd = getApplicationContext().getAssets().openFd(Constants.CONTENT_AUDIO_FOLDER+value);
+                                        mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                                        mp.start();
+                                        // Changing Button Image to pause image
+                                        btnPlay.setImageResource(R.drawable.btn_pause);
+                                        // set Progress bar values
+                                        songProgressBar.setProgress(0);
+                                        songProgressBar.setMax(100);
+                                        // Updating progress bar
+                                        updateProgressBar();
+                                    }
+                                }
+                            } catch (IOException ex) {
+                            } catch (IllegalArgumentException e) {
+                                e.printStackTrace();
+                            } catch (Resources.NotFoundException ex) {
+                                Toast.makeText(getApplicationContext(), "Resource not found in this device", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    } catch (IOException ex) {
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    }
-                    catch (Resources.NotFoundException ex){
-                        Toast.makeText(getApplicationContext(), "Resource not found in this device", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+                    });
 
             /**
              * Forward button click event
@@ -775,33 +680,31 @@ SeekBar.OnSeekBarChangeListener{
             final ImageButton btnForward = (ImageButton) dialog.findViewById(R.id.btnForward);
             final ImageButton btnBackward = (ImageButton) dialog.findViewById(R.id.btnBackward);
             Button close = (Button) dialog.findViewById(R.id.close);
-            // Button playWithApp = (Button) dialog.findViewById(R.id.playWithApp);
-//            final String uriPath = "android.resource://"+getPackageName()+"/raw/"+value;
-//            Uri UrlPath = Uri.parse(uriPath);
-//            File mediaStorageDir = new File(
-//                    Environment
-//                            .getExternalStorageDirectory().getAbsolutePath()+ Constants.CONTENT_VIDEO_FOLDER);
-            // Create the storage directory if it does not exist
-//            if (mediaStorageDir.exists()) {
-                try {
+            try {
+                mp = new MediaPlayer();
                 SurfaceHolder _holder = videoView.getHolder();
                 _holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-                mp = new MediaPlayer();
-                AssetFileDescriptor afd = getResources().getAssets().openFd("videos/video.mp4");
+                _holder.addCallback(new SurfaceHolder.Callback() {
+                    @Override
+                    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                        mp.setDisplay(surfaceHolder);
+                    }
+                    @Override
+                    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+                    }
+                    @Override
+                    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                        if(mp != null)
+                             mp.setDisplay(null);
+                    }
+                });
+                AssetFileDescriptor afd = getApplicationContext().getAssets().openFd(Constants.CONTENT_VIDEO_FOLDER+value);
                 mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                mp.setDisplay(_holder); //_holder is SurfaceHolder of SurfaceView
-                mp.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-//                String videoPath = mediaStorageDir.getAbsolutePath() + File.separator + currentM.getBodyContent() + "mp3";
-//                Uri UrlPath = Uri.parse(videoPath);
-//                android.widget.MediaController mediaController = new android.widget.MediaController(WeekContentActivity.this);
-//                videoView.setMediaController(mediaController);
-//                videoView.setVideoURI(UrlPath);
-//            }else{
-//                Toast.makeText(getApplicationContext(),"Video file not available", Toast.LENGTH_SHORT).show();
-//            }
+                mp.prepareAsync();
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
             songCurrentDurationLabel = (TextView) dialog.findViewById(R.id.songCurrentDurationLabel);
             songTotalDurationLabel = (TextView) dialog.findViewById(R.id.songTotalDurationLabel);
             songProgressBar = (SeekBar) dialog.findViewById(R.id.songProgressBar);
@@ -811,43 +714,40 @@ SeekBar.OnSeekBarChangeListener{
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    videoView.pause();
+                    mp.stop();
+                    if(mp != null)
+                        mp.setDisplay(null);
                     dialog.cancel();
                 }
             });
             btnBackward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(videoView.canSeekBackward()){
-                        // get current song position
-                        int currentPosition = videoView.getCurrentPosition();
-                        // check if seekBackward time is greater than 0 sec
-                        if (currentPosition - seekBackwardTime >= 0) {
-                            // forward song
-                            mp.seekTo(currentPosition - seekBackwardTime);
-                        } else {
-                            // backward to starting position
-                            mp.seekTo(0);
-                        }
+                    // get current song position
+                    int currentPosition = mp.getCurrentPosition();
+                    // check if seekBackward time is greater than 0 sec
+                    if (currentPosition - seekBackwardTime >= 0) {
+                        // forward song
+                        mp.seekTo(currentPosition - seekBackwardTime);
+                    } else {
+                        // backward to starting position
+                        mp.seekTo(0);
                     }
                 }
             });
-
             btnForward.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                        // get current song position
-                        int currentPosition = videoView.getCurrentPosition();
-                        // check if seekForward time is lesser than song duration
-                        if (currentPosition + seekForwardTime <= videoView.getDuration()) {
-                            // forward song
-                            mp.seekTo(currentPosition + seekForwardTime);
-                        } else {
-                            // forward to end position
-                            mp.seekTo(videoView.getDuration());
-                        }
-
+                    // get current song position
+                    int currentPosition = mp.getCurrentPosition();
+                    // check if seekForward time is lesser than song duration
+                    if(currentPosition + seekForwardTime <= mp.getDuration()) {
+                        // forward song
+                        mp.seekTo(currentPosition + seekForwardTime);
+                    } else {
+                        // forward to end position
+                        mp.seekTo(mp.getDuration());
+                    }
                 }
             });
             btnPlay.setOnClickListener(new View.OnClickListener() {
@@ -869,6 +769,7 @@ SeekBar.OnSeekBarChangeListener{
             dialog.show();
         }
     }
+
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {}
 
@@ -890,17 +791,10 @@ SeekBar.OnSeekBarChangeListener{
         if(mp != null){
             totalDuration = mp.getDuration();
         }
-        else{
-            totalDuration = videoView.getDuration();
-        }
-
         int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
         // forward or backward to certain seconds
         if(mp != null) {
             mp.seekTo(currentPosition);
-        }
-        else{
-            videoView.seekTo(currentPosition);
         }
         // update timer progress again
         updateProgressBar();
@@ -918,15 +812,10 @@ SeekBar.OnSeekBarChangeListener{
                     totalDuration = mp.getDuration();
                     currentDuration = mp.getCurrentPosition();
                 }
-                else{
-                    totalDuration = videoView.getDuration();
-                    currentDuration = videoView.getCurrentPosition();
-                }
                 // Displaying Total Duration time
                 songTotalDurationLabel.setText("" + utils.milliSecondsToTimer(totalDuration));
                 // Displaying time completed playing
                 songCurrentDurationLabel.setText("" + utils.milliSecondsToTimer(currentDuration));
-
                 // Updating progress bar
                 int progress = (int) (utils.getProgressPercentage(currentDuration, totalDuration));
                 //Log.d("Progress", ""+progress);
@@ -936,17 +825,4 @@ SeekBar.OnSeekBarChangeListener{
             }catch (IllegalStateException ex){}
         }
     };
-
-
-    public Bitmap getBitmapFromAssets(String fileName){
-        AssetManager assetManager = getResources().getAssets();
-        InputStream inputStream = null;
-        try {
-            inputStream = assetManager.open(fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-        return bitmap;
-    }
 }

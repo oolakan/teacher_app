@@ -2,36 +2,23 @@ package custom;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
-import android.os.Environment;
-import android.os.Handler;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.practicer.teacherapp.R;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Random;
 
 /**
  * Created by HighStrit on 18/03/2017.
@@ -71,23 +58,12 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
         if(wdt.get(position).getBodyType().equals(Constants.IMAGE)){
             viewHolder.image.setVisibility(View.VISIBLE);
             String name = wdt.get(position).getBodyContent();
-//            File mediaStorageDir = new File(
-//                    Environment
-//                            .getExternalStorageDirectory().getAbsolutePath()+ Constants.CONTENT_IMAGE_FOLDER);
-//            // Create the storage directory if it does not exist
-//            if (mediaStorageDir.exists()){
-//                Bitmap b= BitmapFactory.decodeFile(mediaStorageDir.getAbsolutePath() + File.separator
-//                        + name + ".png");
-//                viewHolder.image.setImageBitmap(b);
-//            }
-           // int id = context.getResources().getIdentifier(name, "drawable", context.getPackageName());
-            Bitmap bitmap = getBitmapFromAssets("images/t1p4w6d1maths.png");
+            Bitmap bitmap = getBitmapFromAssets(Constants.CONTENT_IMAGE_FOLDER+name);
             viewHolder.image.setImageBitmap(bitmap);
         }
         else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.TEXT)){
             viewHolder.body_content.setText(wdt.get(position).getBodyContent());
         }
-
         else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.SONG)){
             viewHolder.frame.setVisibility(View.VISIBLE);
             viewHolder.audioTitle.setText(wdt.get(position).getBodyContent());

@@ -18,10 +18,10 @@ public final class Constants {
         public static final String BODY_TITLE = "body_title";
         public static final String TEXT = "text";
         public static final String IMAGE = "image";
-        public static final String CONTENT_MULTIMEDIA_FOLDER = "/multimedia";
-        public static final String CONTENT_AUDIO_FOLDER = CONTENT_MULTIMEDIA_FOLDER+"/audio/";
-        public static final String CONTENT_VIDEO_FOLDER = CONTENT_MULTIMEDIA_FOLDER+"/video/";
-        public static final String CONTENT_IMAGE_FOLDER = CONTENT_MULTIMEDIA_FOLDER+"/image/";
+        public static final String CONTENT_MULTIMEDIA_FOLDER = "multimedia/";
+        public static final String CONTENT_AUDIO_FOLDER = CONTENT_MULTIMEDIA_FOLDER+"audios/";
+        public static final String CONTENT_VIDEO_FOLDER = CONTENT_MULTIMEDIA_FOLDER+"videos/";
+        public static final String CONTENT_IMAGE_FOLDER = CONTENT_MULTIMEDIA_FOLDER+"images/";
         public static final String SONG = "song";
         public static final String MULTIMEDIA = "MM";
         public static final String BODY_CONTENT = "body_content";
