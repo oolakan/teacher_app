@@ -64,12 +64,11 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
             viewHolder.image.setImageBitmap(bitmap);
             viewHolder.videoFrame.setVisibility(View.GONE);
             viewHolder.frame.setVisibility(View.GONE);
-            viewHolder.body_content.setVisibility(View.VISIBLE);
-            viewHolder.body_content.setText(wdt.get(position).getBodyContent());
+            viewHolder.body_content.setVisibility(View.GONE);
             viewHolder.videoTitle.setVisibility(View.GONE);
             viewHolder.audioTitle.setVisibility(View.GONE);
         }
-        if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.TEXT)){
+       else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.TEXT)){
             viewHolder.body_content.setVisibility(View.VISIBLE);
             viewHolder.body_content.setText(wdt.get(position).getBodyContent());
             viewHolder.videoFrame.setVisibility(View.GONE);
@@ -78,9 +77,8 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
             viewHolder.videoTitle.setVisibility(View.GONE);
             viewHolder.audioTitle.setVisibility(View.GONE);
         }
-        if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.SONG)){
-            viewHolder.body_content.setVisibility(View.VISIBLE);
-            viewHolder.body_content.setText(wdt.get(position).getBodyContent());
+       else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.SONG)){
+            viewHolder.body_content.setVisibility(View.GONE);
             viewHolder.frame.setVisibility(View.VISIBLE);
             viewHolder.videoFrame.setVisibility(View.GONE);
             viewHolder.image.setVisibility(View.GONE);
@@ -88,13 +86,12 @@ public class WeekContentListAdapter extends ArrayAdapter<WDT>{
             viewHolder.audioTitle.setVisibility(View.VISIBLE);
             viewHolder.audioTitle.setText(wdt.get(position).getBodyContent());
         }
-        if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.VIDEO)){
+        else if(wdt.get(position).getBodyType().equalsIgnoreCase(Constants.VIDEO)){
             viewHolder.videoFrame.setVisibility(View.VISIBLE);
             viewHolder.frame.setVisibility(View.GONE);
             viewHolder.image.setVisibility(View.GONE);
             viewHolder.audioTitle.setVisibility(View.GONE);
-            viewHolder.body_content.setVisibility(View.VISIBLE);
-            viewHolder.body_content.setText(wdt.get(position).getBodyContent());
+            viewHolder.body_content.setVisibility(View.GONE);
             viewHolder.videoTitle.setVisibility(View.VISIBLE);
             viewHolder.videoTitle.setText(wdt.get(position).getBodyContent());
         }
